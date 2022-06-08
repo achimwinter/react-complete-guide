@@ -24,10 +24,15 @@ const App = () => {
     },
   ];
 
+  const onAddExpense = expense => {
+    console.log('im in app.js');
+    console.log(expense);
+    expenses = [...expenses, expense];
+  }
 
   return (
     <div>
-      <NewExpense />
+      <NewExpense onAddExpense={onAddExpense}/>
       <Expenses items={expenses}/>
     </div>
   )
