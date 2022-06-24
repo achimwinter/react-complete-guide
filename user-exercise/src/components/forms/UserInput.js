@@ -1,10 +1,13 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Form } from 'react-bootstrap';
 
 const UserInput = props => {
+    const nameInputRef = useRef();
+    const ageInputRef = useRef();
+
     const [error, setError] = useState({
         title: 'Invalid Input',
         message: ''
@@ -13,22 +16,13 @@ const UserInput = props => {
     const [show, setShow] = useState(false);
     const toggleShow = () => setShow(!show);
 
-    const [username, setUsername] = useState('');
-    const [age, setAge] = useState('');
-
-    const usernameChangeHandler = event => {
-        setUsername(event.target.value);
-    }
-
-    const ageChangeHandler = event => {
-        setAge(event.target.value);
-    }
-
-
     const addUserHandler = event => {
         event.preventDefault();
 
-        if (username === '' || username.trim().length  === 0 || age === '') {
+        const enteredName = nameInputRef.current.value;
+        const enteredAge = ageInputRef.current.value;
+
+        if (enteredName === '' || enteredName.trim().length  === 0 || enteredAge === '') {
            setError({
             title: 'Invalid input',
             message: 'Please enter a valid name and age (non-empty values).'
@@ -37,7 +31,7 @@ const UserInput = props => {
            return;
         }
 
-        if (+age < 1) {
+        if (+enteredAge < 1) {
             setError({
                 title: 'Invalid input',
                 message: 'Please enter a valid age (> 0).'
@@ -48,13 +42,13 @@ const UserInput = props => {
 
         const user = {
             id: Math.random(),
-            name: username,
-            age: age
+            name: enteredName,
+            age: enteredAge
         }
 
         props.onAddUser(user)
-        setUsername('');
-        setAge('');
+        nameInputRef = '';
+        ageInputRef = '';
     }
 
 
@@ -62,10 +56,10 @@ const UserInput = props => {
         <>
         <Form className='mb-3' onSubmit={addUserHandler}>
             <Form.Label htmlFor='username'>Username
-            <Form.Control value={username} type='text' name="name" onChange={usernameChangeHandler}/>
+            <Form.Control type='text' name="name" ref={nameInputRef}/>
             </Form.Label>
             <Form.Label htmlFor='age'>Age
-            <Form.Control value={age} type='number' name="age" onChange={ageChangeHandler}/>
+            <Form.Control type='number' name="age" ref={ageInputRef}/>
             </Form.Label>
             <Form.Control type='submit' value='Add User' />
         </Form>
