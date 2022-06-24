@@ -1,16 +1,17 @@
+import { ListGroup } from "react-bootstrap";
 import User from "./User";
 import './Users.css'
 
 const Users = props => {
     return (
-        <ul className="users">
+        <ListGroup className="users">
         {props.data.map(user => (
             <User 
             key={user.id}
             id={user.id}
             data={user}></User>
         ))}
-        </ul>
+        </ListGroup>
     )
 };
 

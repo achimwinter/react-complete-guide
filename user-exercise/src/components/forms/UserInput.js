@@ -2,6 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 import { useState } from "react";
+import { Form } from 'react-bootstrap';
 
 const UserInput = props => {
     const [error, setError] = useState({
@@ -36,7 +37,7 @@ const UserInput = props => {
            return;
         }
 
-        if (age < 0) {
+        if (+age < 1) {
             setError({
                 title: 'Invalid input',
                 message: 'Please enter a valid age (> 0).'
@@ -59,15 +60,15 @@ const UserInput = props => {
 
     return (
         <>
-        <form onSubmit={addUserHandler}>
-            <label>Username
-            <input type='text' name="name" onChange={usernameChangeHandler}/>
-            </label>
-            <label>Age
-            <input type='number' name="age" onChange={ageChangeHandler}/>
-            </label>
-            <input type='submit' value='Add User' />
-        </form>
+        <Form className='mb-3' onSubmit={addUserHandler}>
+            <Form.Label htmlFor='username'>Username
+            <Form.Control value={username} type='text' name="name" onChange={usernameChangeHandler}/>
+            </Form.Label>
+            <Form.Label htmlFor='age'>Age
+            <Form.Control value={age} type='number' name="age" onChange={ageChangeHandler}/>
+            </Form.Label>
+            <Form.Control type='submit' value='Add User' />
+        </Form>
 
 
         <Modal show={show} onHide={toggleShow}>
